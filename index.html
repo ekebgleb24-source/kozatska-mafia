@@ -17,8 +17,7 @@ body {
     min-height: 100vh;
     font-family: Georgia, "Times New Roman", serif;
     color: #f5e6c8;
-    background:
-        radial-gradient(circle at top, #6b421f 0%, #25160c 45%, #100905 100%);
+    background: radial-gradient(circle at top, #6b421f, #25160c 50%, #100905);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -138,38 +137,93 @@ button.red {
     text-align: center;
 }
 
-.role-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+.info {
+    text-align: center;
+    color: #c8aa72;
+    margin-bottom: 15px;
+}
+
+.error {
+    text-align: center;
+    color: #ff8989;
+    margin: 12px 0;
+}
+
+/* РОЛІ */
+
+.role-list {
+    display: flex;
+    flex-direction: column;
     gap: 10px;
 }
 
-.role {
-    padding: 14px 8px;
-    border-radius: 12px;
-    border: 1px solid #72502d;
+.role-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
     background: #291910;
-    color: #f5e6c8;
-    cursor: pointer;
+    border: 1px solid #72502d;
+    border-radius: 13px;
 }
 
-.role.selected {
-    background: #5a381b;
-    border-color: #e2b85b;
+.role-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
 }
 
 .role-icon {
-    display: block;
-    font-size: 28px;
-    margin-bottom: 5px;
+    font-size: 30px;
+    width: 40px;
+    text-align: center;
+}
+
+.role-name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.role-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.role-controls button {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    margin: 0;
+    border-radius: 50%;
+    font-size: 24px;
 }
 
 .role-count {
-    display: block;
-    color: #c8aa72;
-    font-size: 13px;
-    margin-top: 4px;
+    width: 35px;
+    text-align: center;
+    font-size: 21px;
+    font-weight: bold;
+    color: #f0cd7b;
 }
+
+.total-box {
+    margin-top: 20px;
+    padding: 15px;
+    text-align: center;
+    background: #35200f;
+    border: 1px solid #d6a84f;
+    border-radius: 12px;
+}
+
+.total-number {
+    font-size: 25px;
+    color: #f0cd7b;
+    font-weight: bold;
+}
+
+/* ІМЕНА */
 
 input {
     width: 100%;
@@ -192,6 +246,23 @@ input {
 .player-number {
     color: #d6a84f;
     font-weight: bold;
+}
+
+/* КАРТКА */
+
+.progress {
+    height: 7px;
+    background: #382719;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 15px 0 25px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0;
+    background: #d6a84f;
+    transition: .3s;
 }
 
 .card {
@@ -223,6 +294,8 @@ input {
     color: #e4cda1;
     line-height: 1.6;
 }
+
+/* ФАЗИ ГРИ */
 
 .phase-icon {
     text-align: center;
@@ -266,20 +339,7 @@ input {
     line-height: 1.6;
 }
 
-.progress {
-    height: 7px;
-    background: #382719;
-    border-radius: 20px;
-    overflow: hidden;
-    margin: 15px 0 25px;
-}
-
-.progress-bar {
-    height: 100%;
-    width: 0;
-    background: #d6a84f;
-    transition: .3s;
-}
+/* ГОЛОСУВАННЯ */
 
 .vote {
     display: flex;
@@ -300,23 +360,12 @@ input {
     font-size: 14px;
 }
 
-.error {
-    text-align: center;
-    color: #ff8989;
-    margin: 12px 0;
-}
-
-.info {
-    text-align: center;
-    color: #c8aa72;
-    margin-bottom: 15px;
-}
-
 .hidden {
     display: none !important;
 }
 
 @media(max-width:420px) {
+
     body {
         padding: 0;
     }
@@ -327,6 +376,7 @@ input {
         border-left: 0;
         border-right: 0;
     }
+
 }
 </style>
 </head>
@@ -338,6 +388,7 @@ input {
 <div class="header">
 ⚔️ КОЗАЦЬКА МАФІЯ ⚔️
 </div>
+
 
 <!-- ГОЛОВНИЙ ЕКРАН -->
 
@@ -396,7 +447,7 @@ input {
 </section>
 
 
-<!-- РОЛІ -->
+<!-- ВИБІР КІЛЬКОСТІ РОЛЕЙ -->
 
 <section id="roles" class="screen">
 
@@ -405,11 +456,20 @@ input {
 </div>
 
 <div class="info">
-Обрано <b id="roleNumber">0</b> з
-<b id="roleLimit">8</b>
+Встановіть кількість кожної ролі
 </div>
 
-<div id="roleGrid" class="role-grid"></div>
+<div id="roleList" class="role-list"></div>
+
+<div class="total-box">
+
+Всього ролей:
+
+<div id="totalRoles" class="total-number">
+0 / 8
+</div>
+
+</div>
 
 <div id="roleError" class="error"></div>
 
@@ -452,12 +512,16 @@ input {
 <div id="dealPlayer" class="info"></div>
 
 <div class="progress">
+
 <div id="progressBar" class="progress-bar"></div>
+
 </div>
 
 <div id="closedCard" class="card">
 
-<div class="card-icon">🂠</div>
+<div class="card-icon">
+🂠
+</div>
 
 <div class="card-title">
 Таємна карта
@@ -470,6 +534,7 @@ input {
 
 </div>
 
+
 <div id="openCard" class="card hidden">
 
 <div id="roleIcon" class="card-icon"></div>
@@ -479,6 +544,7 @@ input {
 <div id="roleDescription" class="card-description"></div>
 
 </div>
+
 
 <button id="showButton" onclick="showRole()">
 👁️ ПОКАЗАТИ КАРТУ
@@ -653,7 +719,7 @@ let playerCount = 8;
 
 let players = [];
 
-let selectedRoles = [];
+let roleCounts = {};
 
 let currentPlayer = 0;
 
@@ -661,6 +727,8 @@ let nightNumber = 1;
 
 let nightStep = 0;
 
+
+/* РОЛІ */
 
 const roles = {
 
@@ -730,6 +798,8 @@ description:
 };
 
 
+/* ПЕРЕМИКАННЯ ЕКРАНІВ */
+
 function showScreen(id) {
 
 document.querySelectorAll(".screen")
@@ -741,12 +811,16 @@ document.getElementById(id)
 }
 
 
+/* ГОЛОВНИЙ ЕКРАН */
+
 function showPlayers() {
 
 showScreen("players");
 
 }
 
+
+/* КІЛЬКІСТЬ ГРАВЦІВ */
 
 function changePlayers(value) {
 
@@ -764,94 +838,161 @@ document.getElementById("playerNumber")
 }
 
 
+/* СТОРІНКА РОЛЕЙ */
+
 function showRoles() {
 
-selectedRoles = [];
-
-document.getElementById("roleLimit")
-.textContent = playerCount;
-
-createRoles();
+createRoleList();
 
 showScreen("roles");
 
 }
 
 
-function createRoles() {
+/* СТВОРЕННЯ СПИСКУ РОЛЕЙ */
 
-const grid =
-document.getElementById("roleGrid");
+function createRoleList() {
 
-grid.innerHTML = "";
+const list =
+document.getElementById("roleList");
+
+list.innerHTML = "";
 
 Object.keys(roles).forEach(key => {
 
+if(roleCounts[key] === undefined) {
+roleCounts[key] = 0;
+}
+
 const r = roles[key];
 
-const div =
+const row =
 document.createElement("div");
 
-div.className = "role";
+row.className = "role-row";
 
-div.innerHTML = `
-<span class="role-icon">${r.icon}</span>
-<b>${r.name}</b>
-<span class="role-count">Натисніть для вибору</span>
+row.innerHTML = `
+
+<div class="role-info">
+
+<div class="role-icon">
+${r.icon}
+</div>
+
+<div class="role-name">
+${r.name}
+</div>
+
+</div>
+
+<div class="role-controls">
+
+<button onclick="changeRole('${key}', -1)">
+−
+</button>
+
+<div
+id="count-${key}"
+class="role-count"
+>
+${roleCounts[key]}
+</div>
+
+<button onclick="changeRole('${key}', 1)">
++
+</button>
+
+</div>
+
 `;
 
-div.onclick = () => {
+list.appendChild(row);
 
-if(selectedRoles.includes(key)) {
+});
 
-selectedRoles =
-selectedRoles.filter(x => x !== key);
-
-div.classList.remove("selected");
+updateTotal();
 
 }
 
-else {
 
-if(selectedRoles.length >= playerCount) {
+/* ЗМІНА КІЛЬКОСТІ РОЛІ */
+
+function changeRole(key, value) {
+
+let current =
+roleCounts[key] || 0;
+
+current += value;
+
+if(current < 0)
+current = 0;
+
+if(current > 20)
+current = 20;
+
+
+/* Не дозволяємо перевищити кількість гравців */
+
+let total =
+getTotalRoles();
+
+if(value > 0 && total >= playerCount) {
 
 document.getElementById("roleError")
 .textContent =
-"Ви вже вибрали потрібну кількість ролей.";
+`Для ${playerCount} гравців більше ролей додати не можна.`;
 
 return;
 
 }
 
-selectedRoles.push(key);
+roleCounts[key] = current;
 
-div.classList.add("selected");
-
-}
-
-document.getElementById("roleNumber")
-.textContent =
-selectedRoles.length;
+document.getElementById("count-"+key)
+.textContent = current;
 
 document.getElementById("roleError")
 .textContent = "";
 
-};
-
-grid.appendChild(div);
-
-});
+updateTotal();
 
 }
 
 
+/* ЗАГАЛЬНА КІЛЬКІСТЬ */
+
+function getTotalRoles() {
+
+return Object.values(roleCounts)
+.reduce((sum,value) => sum + value, 0);
+
+}
+
+
+function updateTotal() {
+
+let total =
+getTotalRoles();
+
+document.getElementById("totalRoles")
+.textContent =
+`${total} / ${playerCount}`;
+
+}
+
+
+/* ІМЕНА */
+
 function showNames() {
 
-if(selectedRoles.length !== playerCount) {
+let total =
+getTotalRoles();
+
+if(total !== playerCount) {
 
 document.getElementById("roleError")
 .textContent =
-`Потрібно вибрати рівно ${playerCount} ролей.`;
+`Потрібно вибрати рівно ${playerCount} ролей. Зараз вибрано ${total}.`;
 
 return;
 
@@ -889,6 +1030,8 @@ showScreen("names");
 }
 
 
+/* РОЗДАЧА КАРТ */
+
 function startDeal() {
 
 players = [];
@@ -910,14 +1053,35 @@ alive:true
 
 }
 
-let shuffled =
-[...selectedRoles];
 
-shuffle(shuffled);
+/* Створюємо колоду */
+
+let deck = [];
+
+Object.keys(roleCounts).forEach(key => {
+
+for(let i=0;i<roleCounts[key];i++) {
+
+deck.push(key);
+
+}
+
+});
+
+
+/* Перемішуємо */
+
+shuffle(deck);
+
+
+/* Роздаємо */
 
 players.forEach((p,i) => {
-p.role = shuffled[i];
+
+p.role = deck[i];
+
 });
+
 
 currentPlayer = 0;
 
@@ -927,6 +1091,8 @@ showScreen("deal");
 
 }
 
+
+/* ПЕРЕМІШУВАННЯ */
 
 function shuffle(array) {
 
@@ -942,6 +1108,8 @@ Math.floor(Math.random()*(i+1));
 
 }
 
+
+/* ПІДГОТОВКА КАРТИ */
 
 function prepareCard() {
 
@@ -973,6 +1141,8 @@ document.getElementById("nextButton")
 
 }
 
+
+/* ПОКАЗАТИ РОЛЬ */
 
 function showRole() {
 
@@ -1006,6 +1176,8 @@ document.getElementById("hideButton")
 }
 
 
+/* СХОВАТИ */
+
 function hideRole() {
 
 document.getElementById("openCard")
@@ -1031,6 +1203,8 @@ document.getElementById("nextButton")
 }
 
 
+/* НАСТУПНИЙ */
+
 function nextPlayer() {
 
 if(currentPlayer < playerCount-1) {
@@ -1049,6 +1223,8 @@ showScreen("startGame");
 
 }
 
+
+/* НІЧ */
 
 const nightActions = [
 
@@ -1091,7 +1267,7 @@ text:
 icon:"✝️",
 name:"Священик",
 text:
-"Священик може використати свій імунітет. Пам'ятайте: раз на два кола."
+"Священик може використати свій імунітет. Раз на два кола."
 }
 
 ];
@@ -1168,6 +1344,8 @@ showMorning();
 }
 
 
+/* РАНОК */
+
 function showMorning() {
 
 document.getElementById("morningNumber")
@@ -1179,6 +1357,8 @@ showScreen("morning");
 }
 
 
+/* ОБГОВОРЕННЯ */
+
 function startDiscussion() {
 
 document.getElementById("discussionNumber")
@@ -1189,6 +1369,8 @@ showScreen("discussion");
 
 }
 
+
+/* ГОЛОСУВАННЯ */
 
 function startVoting() {
 
@@ -1230,6 +1412,8 @@ showScreen("voting");
 }
 
 
+/* ВИБУВАННЯ */
+
 function eliminate(index) {
 
 players[index].alive = false;
@@ -1251,6 +1435,8 @@ startNight();
 }
 
 
+/* ПЕРЕВІРКА ПЕРЕМОГИ */
+
 function checkWinner() {
 
 let alive =
@@ -1261,6 +1447,9 @@ alive.filter(p => p.role === "mafiosi");
 
 let scary =
 alive.filter(p => p.role === "scary");
+
+
+/* Мавка виграла */
 
 let mavkaDead =
 players.some(
@@ -1278,6 +1467,9 @@ return true;
 
 }
 
+
+/* Мирні перемогли */
+
 if(mafia.length === 0 && scary.length === 0) {
 
 showEnd(
@@ -1288,6 +1480,9 @@ showEnd(
 return true;
 
 }
+
+
+/* Мафія */
 
 if(
 mafia.length > 0 &&
@@ -1302,6 +1497,9 @@ showEnd(
 return true;
 
 }
+
+
+/* Маніяк */
 
 if(alive.length === 1 && scary.length === 1) {
 
@@ -1319,6 +1517,8 @@ return false;
 }
 
 
+/* КІНЕЦЬ */
+
 function showEnd(title,text) {
 
 document.getElementById("winnerTitle")
@@ -1332,11 +1532,13 @@ showScreen("end");
 }
 
 
+/* НОВА ГРА */
+
 function newGame() {
 
 players = [];
 
-selectedRoles = [];
+roleCounts = {};
 
 currentPlayer = 0;
 
@@ -1347,7 +1549,6 @@ nightStep = 0;
 showScreen("home");
 
 }
-
 
 </script>
 
