@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Козацька Мафія</title>
 
 <style>
@@ -17,7 +16,8 @@ body {
     min-height: 100vh;
     font-family: Georgia, "Times New Roman", serif;
     color: #f5e6c8;
-    background: radial-gradient(circle at top, #6b421f, #25160c 50%, #100905);
+    background:
+        radial-gradient(circle at top, #70451f, #28170b 48%, #0d0704);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -269,7 +269,8 @@ input {
     min-height: 320px;
     border: 2px solid #d6a84f;
     border-radius: 20px;
-    background: radial-gradient(circle, #4c2c16, #160c07);
+    background:
+        radial-gradient(circle, #4c2c16, #160c07);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -365,7 +366,6 @@ input {
 }
 
 @media(max-width:420px) {
-
     body {
         padding: 0;
     }
@@ -376,7 +376,6 @@ input {
         border-left: 0;
         border-right: 0;
     }
-
 }
 </style>
 </head>
@@ -447,7 +446,7 @@ input {
 </section>
 
 
-<!-- ВИБІР КІЛЬКОСТІ РОЛЕЙ -->
+<!-- ВИБІР РОЛЕЙ -->
 
 <section id="roles" class="screen">
 
@@ -512,9 +511,7 @@ input {
 <div id="dealPlayer" class="info"></div>
 
 <div class="progress">
-
 <div id="progressBar" class="progress-bar"></div>
-
 </div>
 
 <div id="closedCard" class="card">
@@ -534,7 +531,6 @@ input {
 
 </div>
 
-
 <div id="openCard" class="card hidden">
 
 <div id="roleIcon" class="card-icon"></div>
@@ -544,7 +540,6 @@ input {
 <div id="roleDescription" class="card-description"></div>
 
 </div>
-
 
 <button id="showButton" onclick="showRole()">
 👁️ ПОКАЗАТИ КАРТУ
@@ -657,7 +652,8 @@ input {
 <div class="phase-text">
 Козаки обговорюють події,
 підозрюють один одного та
-намагаються знайти мафіозі.
+намагаються знайти
+Козаків-характерників.
 </div>
 
 <button onclick="startVoting()">
@@ -733,66 +729,66 @@ let nightStep = 0;
 const roles = {
 
 peasant: {
-name:"Селянин",
-icon:"🌾",
+name: "Селянин",
+icon: "🌾",
 description:
-"Ви — мирний житель. Допоможіть громаді знайти мафіозі."
+"Ви — мирний житель. Допоможіть громаді знайти Козаків-характерників."
 },
 
 cossack: {
-name:"Козак",
-icon:"⚔️",
+name: "Козак",
+icon: "⚔️",
 description:
-"Ви — комісар. Вночі перевіряйте одного гравця."
+"Ви — комісар. Вночі можете перевірити одного гравця."
 },
 
 malfar: {
-name:"Мальфар",
-icon:"🧙",
+name: "Мальфар",
+icon: "🧙",
 description:
 "Ви — лікар. Вночі можете врятувати одного гравця."
 },
 
 mafiosi: {
-name:"Мафіозі",
-icon:"🔴",
+name: "Козак-характерник",
+icon: "🧿",
 description:
-"Ви — мафіозі. Вночі обирайте жертву."
+"Ви — Козак-характерник. Вночі обирайте жертву. Ваша мета — позбутися мирних жителів та отримати більшість."
 },
 
 homeless: {
-name:"Безхатько",
-icon:"🏚️",
+name: "Безхатько",
+icon: "🏚️",
 description:
-"Вночі приходите в гості до гравця та блокуєте його здатність."
+"Ви приходите в гості до одного гравця та блокуєте його здатність цієї ночі."
 },
 
 scary: {
-name:"Страшко",
-icon:"😈",
+name: "Страшко",
+icon: "😈",
 description:
-"Ви — маніяк. Можете вбити будь-якого гравця."
+"Ви — маніяк. Вночі можете обрати будь-якого гравця."
 },
 
 hetman: {
-name:"Гетьман",
-icon:"👑",
+name: "Гетьман",
+icon: "👑",
 description:
-"Ви — головний мирний житель. Тримайте громаду разом."
+"Ви — головний мирний житель. Тримайте громаду разом та не допускайте конфліктів."
 },
 
 priest: {
-name:"Священик",
-icon:"✝️",
+name: "Священик",
+icon: "✝️",
 description:
-"Можете дати імунітет від мафії. Раз на два кола."
+"Ви можете дати імунітет від Козака-характерника. Здібність доступна раз на два кола."
 },
 
 mavka: {
-name:"Мавка",
-icon:"🌿",
+name: "Мавка",
+icon: "🌿",
 description:
-"Ваша мета — переконати громаду, що ви мафія, і бути вигнаною."
+"Ваша мета — зробити так, щоб під час голосування всі подумали, що ви Козак-характерник, і вигнали вас."
 }
 
 };
@@ -803,15 +799,19 @@ description:
 function showScreen(id) {
 
 document.querySelectorAll(".screen")
-.forEach(x => x.classList.remove("active"));
+.forEach(screen => {
+screen.classList.remove("active");
+});
 
 document.getElementById(id)
 .classList.add("active");
 
+window.scrollTo(0, 0);
+
 }
 
 
-/* ГОЛОВНИЙ ЕКРАН */
+/* ПОЇХАЛИ */
 
 function showPlayers() {
 
@@ -838,7 +838,7 @@ document.getElementById("playerNumber")
 }
 
 
-/* СТОРІНКА РОЛЕЙ */
+/* РОЛІ */
 
 function showRoles() {
 
@@ -849,8 +849,6 @@ showScreen("roles");
 }
 
 
-/* СТВОРЕННЯ СПИСКУ РОЛЕЙ */
-
 function createRoleList() {
 
 const list =
@@ -860,11 +858,10 @@ list.innerHTML = "";
 
 Object.keys(roles).forEach(key => {
 
-if(roleCounts[key] === undefined) {
+if(roleCounts[key] === undefined)
 roleCounts[key] = 0;
-}
 
-const r = roles[key];
+const role = roles[key];
 
 const row =
 document.createElement("div");
@@ -876,11 +873,11 @@ row.innerHTML = `
 <div class="role-info">
 
 <div class="role-icon">
-${r.icon}
+${role.icon}
 </div>
 
 <div class="role-name">
-${r.name}
+${role.name}
 </div>
 
 </div>
@@ -891,10 +888,7 @@ ${r.name}
 −
 </button>
 
-<div
-id="count-${key}"
-class="role-count"
->
+<div id="count-${key}" class="role-count">
 ${roleCounts[key]}
 </div>
 
@@ -915,12 +909,23 @@ updateTotal();
 }
 
 
-/* ЗМІНА КІЛЬКОСТІ РОЛІ */
-
 function changeRole(key, value) {
 
 let current =
 roleCounts[key] || 0;
+
+let total =
+getTotalRoles();
+
+if(value > 0 && total >= playerCount) {
+
+document.getElementById("roleError")
+.textContent =
+`Для ${playerCount} гравців уже вибрано максимальну кількість ролей.`;
+
+return;
+
+}
 
 current += value;
 
@@ -930,25 +935,9 @@ current = 0;
 if(current > 20)
 current = 20;
 
-
-/* Не дозволяємо перевищити кількість гравців */
-
-let total =
-getTotalRoles();
-
-if(value > 0 && total >= playerCount) {
-
-document.getElementById("roleError")
-.textContent =
-`Для ${playerCount} гравців більше ролей додати не можна.`;
-
-return;
-
-}
-
 roleCounts[key] = current;
 
-document.getElementById("count-"+key)
+document.getElementById("count-" + key)
 .textContent = current;
 
 document.getElementById("roleError")
@@ -959,12 +948,10 @@ updateTotal();
 }
 
 
-/* ЗАГАЛЬНА КІЛЬКІСТЬ */
-
 function getTotalRoles() {
 
 return Object.values(roleCounts)
-.reduce((sum,value) => sum + value, 0);
+.reduce((sum, value) => sum + value, 0);
 
 }
 
@@ -1003,20 +990,20 @@ document.getElementById("namesList");
 
 list.innerHTML = "";
 
-for(let i=0;i<playerCount;i++) {
+for(let i = 0; i < playerCount; i++) {
 
 list.innerHTML += `
 
 <div class="player">
 
 <div class="player-number">
-${i+1}.
+${i + 1}.
 </div>
 
 <input
 id="name${i}"
 type="text"
-placeholder="Ім'я гравця ${i+1}"
+placeholder="Ім'я гравця ${i + 1}"
 >
 
 </div>
@@ -1030,37 +1017,37 @@ showScreen("names");
 }
 
 
-/* РОЗДАЧА КАРТ */
+/* РОЗДАЧА */
 
 function startDeal() {
 
 players = [];
 
-for(let i=0;i<playerCount;i++) {
+for(let i = 0; i < playerCount; i++) {
 
 let name =
-document.getElementById("name"+i)
+document.getElementById("name" + i)
 .value.trim();
 
 if(!name)
-name = "Козак "+(i+1);
+name = "Козак " + (i + 1);
 
 players.push({
-name:name,
-role:null,
-alive:true
+name: name,
+role: null,
+alive: true
 });
 
 }
 
 
-/* Створюємо колоду */
+/* Створення колоди */
 
 let deck = [];
 
 Object.keys(roleCounts).forEach(key => {
 
-for(let i=0;i<roleCounts[key];i++) {
+for(let i = 0; i < roleCounts[key]; i++) {
 
 deck.push(key);
 
@@ -1069,19 +1056,13 @@ deck.push(key);
 });
 
 
-/* Перемішуємо */
-
 shuffle(deck);
 
+players.forEach((player, index) => {
 
-/* Роздаємо */
-
-players.forEach((p,i) => {
-
-p.role = deck[i];
+player.role = deck[index];
 
 });
-
 
 currentPlayer = 0;
 
@@ -1096,33 +1077,33 @@ showScreen("deal");
 
 function shuffle(array) {
 
-for(let i=array.length-1;i>0;i--) {
+for(let i = array.length - 1; i > 0; i--) {
 
 let j =
-Math.floor(Math.random()*(i+1));
+Math.floor(Math.random() * (i + 1));
 
-[array[i],array[j]] =
-[array[j],array[i]];
-
-}
+[array[i], array[j]] =
+[array[j], array[i]];
 
 }
 
+}
 
-/* ПІДГОТОВКА КАРТИ */
+
+/* КАРТА */
 
 function prepareCard() {
 
-let p =
+let player =
 players[currentPlayer];
 
 document.getElementById("dealPlayer")
 .textContent =
-`${p.name} — гравець ${currentPlayer+1} з ${playerCount}`;
+`${player.name} — гравець ${currentPlayer + 1} з ${playerCount}`;
 
 document.getElementById("progressBar")
 .style.width =
-`${currentPlayer/playerCount*100}%`;
+`${(currentPlayer / playerCount) * 100}%`;
 
 document.getElementById("closedCard")
 .classList.remove("hidden");
@@ -1139,27 +1120,34 @@ document.getElementById("hideButton")
 document.getElementById("nextButton")
 .classList.add("hidden");
 
+document.getElementById("nextButton")
+.textContent =
+currentPlayer === playerCount - 1
+? "⚔️ ПОЧАТИ ГРУ"
+: "ПЕРЕДАТИ НАСТУПНОМУ →";
+
 }
 
 
-/* ПОКАЗАТИ РОЛЬ */
-
 function showRole() {
 
-let p =
+let player =
 players[currentPlayer];
 
-let r =
-roles[p.role];
+let role =
+roles[player.role];
 
 document.getElementById("roleIcon")
-.textContent = r.icon;
+.textContent =
+role.icon;
 
 document.getElementById("roleTitle")
-.textContent = r.name;
+.textContent =
+role.name;
 
 document.getElementById("roleDescription")
-.textContent = r.description;
+.textContent =
+role.description;
 
 document.getElementById("closedCard")
 .classList.add("hidden");
@@ -1175,8 +1163,6 @@ document.getElementById("hideButton")
 
 }
 
-
-/* СХОВАТИ */
 
 function hideRole() {
 
@@ -1192,22 +1178,14 @@ document.getElementById("hideButton")
 document.getElementById("nextButton")
 .classList.remove("hidden");
 
-if(currentPlayer === playerCount-1) {
-
-document.getElementById("nextButton")
-.textContent =
-"⚔️ ПОЧАТИ ГРУ";
-
-}
-
 }
 
 
-/* НАСТУПНИЙ */
+/* НАСТУПНИЙ ГРАВЕЦЬ */
 
 function nextPlayer() {
 
-if(currentPlayer < playerCount-1) {
+if(currentPlayer < playerCount - 1) {
 
 currentPlayer++;
 
@@ -1229,45 +1207,45 @@ showScreen("startGame");
 const nightActions = [
 
 {
-icon:"🏚️",
-name:"Безхатько",
+icon: "🧿",
+name: "Козак-характерник",
+text:
+"Козаки-характерники прокидаються та обирають жертву."
+},
+
+{
+icon: "🏚️",
+name: "Безхатько",
 text:
 "Безхатько приходить у гості до одного гравця та блокує його здатність."
 },
 
 {
-icon:"🔴",
-name:"Мафіозі",
-text:
-"Мафіозі прокидаються та обирають жертву."
-},
-
-{
-icon:"🧙",
-name:"Мальфар",
+icon: "🧙",
+name: "Мальфар",
 text:
 "Мальфар прокидається та обирає, кого врятувати."
 },
 
 {
-icon:"⚔️",
-name:"Козак",
+icon: "⚔️",
+name: "Козак",
 text:
 "Козак прокидається та перевіряє одного гравця."
 },
 
 {
-icon:"😈",
-name:"Страшко",
+icon: "😈",
+name: "Страшко",
 text:
 "Страшко прокидається та обирає будь-якого гравця."
 },
 
 {
-icon:"✝️",
-name:"Священик",
+icon: "✝️",
+name: "Священик",
 text:
-"Священик може використати свій імунітет. Раз на два кола."
+"Священик може використати свій імунітет. Здібність доступна раз на два кола."
 }
 
 ];
@@ -1291,7 +1269,7 @@ nightActions[nightStep];
 
 document.getElementById("nightNumber")
 .textContent =
-"Ніч "+nightNumber;
+"Ніч " + nightNumber;
 
 document.getElementById("nightAction")
 .innerHTML = `
@@ -1300,34 +1278,28 @@ document.getElementById("nightAction")
 ${action.icon}
 </div>
 
-<h3>${action.name}</h3>
+<h3>
+${action.name}
+</h3>
 
-<p>${action.text}</p>
+<p>
+${action.text}
+</p>
 
 `;
 
-if(nightStep === nightActions.length-1) {
-
 document.getElementById("nightButton")
 .textContent =
-"☀️ ЗУСТРІЧАЙМО РАНОК";
-
-}
-
-else {
-
-document.getElementById("nightButton")
-.textContent =
-"ГОТОВО →";
-
-}
+nightStep === nightActions.length - 1
+? "☀️ ЗУСТРІЧАЙМО РАНОК"
+: "ГОТОВО →";
 
 }
 
 
 function nextNight() {
 
-if(nightStep < nightActions.length-1) {
+if(nightStep < nightActions.length - 1) {
 
 nightStep++;
 
@@ -1350,7 +1322,7 @@ function showMorning() {
 
 document.getElementById("morningNumber")
 .textContent =
-"Ранок "+nightNumber;
+"Ранок " + nightNumber;
 
 showScreen("morning");
 
@@ -1363,7 +1335,7 @@ function startDiscussion() {
 
 document.getElementById("discussionNumber")
 .textContent =
-"День "+nightNumber;
+"День " + nightNumber;
 
 showScreen("discussion");
 
@@ -1381,22 +1353,24 @@ list.innerHTML = "";
 
 document.getElementById("votingNumber")
 .textContent =
-"День "+nightNumber;
+"День " + nightNumber;
 
-players.forEach((p,i) => {
+players.forEach((player, index) => {
 
-if(!p.alive)
+if(!player.alive)
 return;
 
 list.innerHTML += `
 
 <div class="vote">
 
-<span>👤 ${p.name}</span>
+<span>
+👤 ${player.name}
+</span>
 
 <button
 class="red"
-onclick="eliminate(${i})"
+onclick="eliminate(${index})"
 >
 ВИГНАТИ
 </button>
@@ -1418,11 +1392,8 @@ function eliminate(index) {
 
 players[index].alive = false;
 
-let p =
-players[index];
-
 alert(
-p.name+" вибув із гри."
+players[index].name + " вибув із гри."
 );
 
 if(checkWinner())
@@ -1435,25 +1406,27 @@ startNight();
 }
 
 
-/* ПЕРЕВІРКА ПЕРЕМОГИ */
+/* ПЕРЕВІРКА ПЕРЕМОЖЦЯ */
 
 function checkWinner() {
 
 let alive =
-players.filter(p => p.alive);
+players.filter(player => player.alive);
 
-let mafia =
-alive.filter(p => p.role === "mafiosi");
+let characterknyky =
+alive.filter(player => player.role === "mafiosi");
 
 let scary =
-alive.filter(p => p.role === "scary");
+alive.filter(player => player.role === "scary");
 
 
-/* Мавка виграла */
+/* МАВКА */
 
 let mavkaDead =
 players.some(
-p => p.role === "mavka" && !p.alive
+player =>
+player.role === "mavka" &&
+!player.alive
 );
 
 if(mavkaDead) {
@@ -1468,13 +1441,13 @@ return true;
 }
 
 
-/* Мирні перемогли */
+/* Мирні */
 
-if(mafia.length === 0 && scary.length === 0) {
+if(characterknyky.length === 0 && scary.length === 0) {
 
 showEnd(
 "⚔️ КОЗАКИ ПЕРЕМОГЛИ!",
-"Мафіозі та Страшко вибули з гри."
+"Усі Козаки-характерники та Страшко вибули з гри."
 );
 
 return true;
@@ -1482,16 +1455,17 @@ return true;
 }
 
 
-/* Мафія */
+/* Козаки-характерники */
 
 if(
-mafia.length > 0 &&
-mafia.length >= alive.length-mafia.length
+characterknyky.length > 0 &&
+characterknyky.length >=
+alive.length - characterknyky.length
 ) {
 
 showEnd(
-"🔴 МАФІЯ ПЕРЕМОГЛА!",
-"Мафіозі отримали більшість."
+"🧿 КОЗАКИ-ХАРАКТЕРНИКИ ПЕРЕМОГЛИ!",
+"Козаки-характерники отримали більшість."
 );
 
 return true;
@@ -1499,13 +1473,13 @@ return true;
 }
 
 
-/* Маніяк */
+/* СТРАШКО */
 
 if(alive.length === 1 && scary.length === 1) {
 
 showEnd(
 "😈 СТРАШКО ПЕРЕМІГ!",
-"Маніяк залишився останнім живим."
+"Страшко залишився останнім живим."
 );
 
 return true;
@@ -1519,7 +1493,7 @@ return false;
 
 /* КІНЕЦЬ */
 
-function showEnd(title,text) {
+function showEnd(title, text) {
 
 document.getElementById("winnerTitle")
 .textContent = title;
